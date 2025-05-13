@@ -1,0 +1,36 @@
+{
+  "name": "stripe-meta-paytrack",
+  "version": "1.0.0",
+  "description": "stripe-meta-paytrack is a lightweight service that listens to Stripe payment webhooks and forwards successful purchase events to Meta’s Conversion API",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fistix/stripe-meta-paytrack.git"
+  },
+  "keywords": [
+    "stripe",
+    "conversion",
+    "api"
+  ],
+  "author": "Fahad Rasool",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fistix/stripe-meta-paytrack/issues"
+  },
+  "homepage": "https://github.com/fistix/stripe-meta-paytrack#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
