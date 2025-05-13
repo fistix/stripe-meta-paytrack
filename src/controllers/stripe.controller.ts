@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Stripe } from "stripe";
+import { sendFacebookConversion } from '../services/meta.services'
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
@@ -8,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 
-export const stripeWebhookController = (request: Request, response: Response): void => {
+export const stripeWebhookController = async (request: Request, response: Response): Promise<void> => {
   try {
 
     console.log("stripeWebhookController Started:");
@@ -23,7 +24,7 @@ export const stripeWebhookController = (request: Request, response: Response): v
 
     try {
       event = stripe.webhooks.constructEvent(request?.body, sig ?? "", endpointSecret);
-    } catch (err) {
+    } catch (err:any) {
       console.log(`⚠️ Webhook signature verification failed.`, err.message);
       response.status(400).send(`Webhook Error: ${err.message}`);
     }
@@ -36,6 +37,14 @@ export const stripeWebhookController = (request: Request, response: Response): v
       console.log('Amount Paid:', session.amount_total);
       console.log('Currency:', session.currency);
       console.log('Payment Status:', session.payment_status);
+
+
+      // Inside the webhook after payment is completed:
+      await sendFacebookConversion(
+        session.customer_email || '',     // fallback to empty string if null
+        (session.amount_total || 0) / 100, // Stripe amount is in cents
+        session.currency || 'usd'
+      );
 
       // saveUserPurchase(session.customer_email, session.amount_total);
     }

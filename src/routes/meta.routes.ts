@@ -1,13 +1,10 @@
-import { Request, Response, Router } from "express";
-
+import { Router } from "express";
+import { sendMetaConversion } from "../controllers/meta.controllers";
 
 const router = Router();
 
 
-router.get("/", (req: Request, res: Response) => {
-  res.send("Hello I am Meta route")
-})
-
+router.post("/pixel/conversion/event/purchased", sendMetaConversion)
 
 
 export default router;
