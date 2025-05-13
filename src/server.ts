@@ -16,7 +16,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello World");
 })
 
-app.use('/api/v1', routes)
+app.use('/', routes)
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 })
